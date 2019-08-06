@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Blog;
+namespace App\Http\Controllers\Blog\Admin;
 
-use App\Models\BlogPost;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class PostController extends BaseController
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,7 @@ class PostController extends BaseController
      */
     public function index()
     {
-        $items = BlogPost::all();
 
-        return view('blog.posts.index', compact('items'));
     }
 
     /**
@@ -36,17 +34,6 @@ class PostController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
     {
         //
     }
@@ -74,14 +61,5 @@ class PostController extends BaseController
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+
 }

@@ -14,14 +14,20 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-//Route::resource('rest','RestTestController')->names('restTest');
-
-Route::group(['namespace' => 'Blog', 'prefix' => 'blog'],function () {
-    Route::resource('posts','PostController')->names('blog.posts');
-});
-
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::group(['namespace' => 'Blog', 'prefix' => 'blog'], function () {
+    Route::resource('posts', 'PostController')->names('blog.posts');
+});
+
+
+Route::group(['namespace' => 'Blog\Admin', 'prefix' => 'admin/blog'], function () {
+    Route::resource('categories', 'CategoryController')
+        ->only(['index', 'edit', 'update', 'create', 'store'])
+        ->names('admin.blog.categories');
+});
+
+
