@@ -27,7 +27,7 @@ Route::group(['namespace' => 'Blog', 'prefix' => 'blog'], function () {
 Route::group(['namespace' => 'Blog\Admin', 'prefix' => 'admin/blog'], function () {
     Route::resource('categories', 'CategoryController')
         ->only(['index', 'edit', 'update', 'create', 'store'])
-        ->names('admin.blog.categories');
+        ->names('blog.admin.categories');
 });
 
 
