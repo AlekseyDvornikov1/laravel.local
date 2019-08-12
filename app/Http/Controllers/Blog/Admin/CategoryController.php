@@ -16,7 +16,7 @@ class CategoryController extends BaseController
     {
         $paginator = BlogCategory::paginate(5);
 
-        return view('blog.admin.category.index', compact('paginator'));
+        return view('blog.admin.categories.index', compact('paginator'));
     }
 
     /**
@@ -50,19 +50,36 @@ class CategoryController extends BaseController
     {
         $item = BlogCategory::findOrFail($id);
         $categoryList = BlogCategory::all();
-        return view('blog.admin.category.edit',compact('item','categoryList'));
+        return view('blog.admin.categories.edit',compact('item','categoryList'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param BlogCategory $category
+     * @return \Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, BlogCategory $category)
     {
-        dd($request->all());
+        if(empty($category)) {
+            return back()
+                ->withErrors(['msg' => 'Запись id = '.$category->id.' не найдена'])
+                ->withInput();
+        }
+
+        $data = $request->all();
+        $result = $category->fill($data)->save();
+
+        if($result) {
+            return redirect()
+                ->route('blog.admin.categories.edit',$category->id)
+                ->with(['success' => 'Успешно сохранено']);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Ошибка сохранения'])
+                ->withInput();
+        }
     }
 
 

@@ -5,7 +5,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <button type="submit" class="btn btn-primary" href="{{route('blog.admin.categories.update',$item->id)}}">Добавить</button>
+                <button type="submit" class="btn btn-primary" href="{{route('blog.admin.categories.update',$item->id)}}">Сохранить</button>
             </div>
         </div>
     </div>
