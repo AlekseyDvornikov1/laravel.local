@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Blog\Admin;
 
+use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Models\BlogCategory;
 use Illuminate\Http\Request;
 
@@ -60,8 +61,9 @@ class CategoryController extends BaseController
      * @param BlogCategory $category
      * @return \Response
      */
-    public function update(Request $request, BlogCategory $category)
+    public function update(BlogCategoryUpdateRequest $request, BlogCategory $category)
     {
+
         if(empty($category)) {
             return back()
                 ->withErrors(['msg' => 'Запись id = '.$category->id.' не найдена'])
