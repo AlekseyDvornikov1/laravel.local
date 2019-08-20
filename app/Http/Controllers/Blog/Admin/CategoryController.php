@@ -88,6 +88,9 @@ class CategoryController extends BaseController
         }
 
         $data = $request->all();
+        if (empty($data['slug'])) {
+            $data['slug'] = Str::slug($data['title']);
+        }
         $result = $category->update($data);
 
         if ($result) {
