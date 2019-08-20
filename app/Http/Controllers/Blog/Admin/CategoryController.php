@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Blog\Admin;
 use App\Http\Requests\BlogCategoryCreateRequest;
 use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Models\BlogCategory;
-use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends BaseController
 {
@@ -28,20 +28,34 @@ class CategoryController extends BaseController
      */
     public function create()
     {
-        $item =  new BlogCategory();
+        $item = new BlogCategory();
         $categoryList = BlogCategory::all()->sortBy('id');
-        return view('blog.admin.categories.edit',compact('item','categoryList'));
+        return view('blog.admin.categories.edit', compact('item', 'categoryList'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param BlogCategoryCreateRequest $request
+     * @return void
      */
     public function store(BlogCategoryCreateRequest $request)
     {
-        dd(__METHOD__);
+        $data = $request->input();
+        if (empty($data['slug'])) {
+            $data['slug'] = Str::slug($data['title']);
+        }
+
+        $item = (new BlogCategory())->create($data);
+
+        if ($item) {
+            return redirect()->route('blog.admin.categories.edit', [$item->id])
+                ->with(['success' => 'Успешно сохранено']);
+
+        } else {
+            return back()->withErrors(['msg' => 'Ошибка сохранения'])
+                ->withInput();
+        }
     }
 
     /**
@@ -54,7 +68,7 @@ class CategoryController extends BaseController
     {
         $item = BlogCategory::findOrFail($id);
         $categoryList = BlogCategory::all()->sortBy('id');
-        return view('blog.admin.categories.create',compact('item','categoryList'));
+        return view('blog.admin.categories.create', compact('item', 'categoryList'));
     }
 
     /**
@@ -67,18 +81,18 @@ class CategoryController extends BaseController
     public function update(BlogCategoryUpdateRequest $request, BlogCategory $category)
     {
 
-        if(empty($category)) {
+        if (empty($category)) {
             return back()
-                ->withErrors(['msg' => 'Запись id = '.$category->id.' не найдена'])
+                ->withErrors(['msg' => 'Запись id = ' . $category->id . ' не найдена'])
                 ->withInput();
         }
 
         $data = $request->all();
         $result = $category->fill($data)->save();
 
-        if($result) {
+        if ($result) {
             return redirect()
-                ->route('blog.admin.categories.edit',$category->id)
+                ->route('blog.admin.categories.edit', $category->id)
                 ->with(['success' => 'Успешно сохранено']);
         } else {
             return back()
