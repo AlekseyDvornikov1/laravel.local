@@ -88,7 +88,7 @@ class CategoryController extends BaseController
         }
 
         $data = $request->all();
-        $result = $category->fill($data)->save();
+        $result = $category->update($data);
 
         if ($result) {
             return redirect()
