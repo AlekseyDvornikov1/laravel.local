@@ -10,14 +10,24 @@ use Illuminate\Support\Str;
 
 class CategoryController extends BaseController
 {
+
+    private $blogCategoryRepository;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->blogCategoryRepository = app(BlogCategoryRepository::class);
+    }
+
     /**
-     * Display a listing of the resource.
+     * .
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $paginator = BlogCategory::orderBy('id')->paginate(5);
+        $paginator = $this->blogCategoryRepository->getAllWithPaginate(5);
 
         return view('blog.admin.categories.index', compact('paginator'));
     }
@@ -30,7 +40,7 @@ class CategoryController extends BaseController
     public function create()
     {
         $item = new BlogCategory();
-        $categoryList = BlogCategory::all()->sortBy('id');
+        $categoryList = $this->blogCategoryRepository->getComboBox();
         return view('blog.admin.categories.create', compact('item', 'categoryList'));
     }
 
@@ -38,7 +48,8 @@ class CategoryController extends BaseController
      * Store a newly created resource in storage.
      *
      * @param BlogCategoryCreateRequest $request
-     * @return void
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(BlogCategoryCreateRequest $request)
     {
