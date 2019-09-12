@@ -10,11 +10,11 @@ class BlogPost extends Model
     use SoftDeletes;
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function category()
+    public function category ()
     {
-        return $this->belongsTo(BlogCategory::class);
+        return $this->hasOne(BlogCategory::class);
     }
 
     /**

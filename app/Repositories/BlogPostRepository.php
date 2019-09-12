@@ -22,6 +22,15 @@ class BlogPostRepository extends CoreRepository
     }
 
     /**
+     * @param $id
+     * @return mixed
+     */
+    public function getEdit($id)
+    {
+        return $this->startConditions()->find($id);
+    }
+
+    /**
      * @param $perPage
      * @return LengthAwarePaginator
      */

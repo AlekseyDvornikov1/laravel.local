@@ -74,16 +74,15 @@ class CategoryController extends BaseController
      * Show the form for editing the specified resource.
      *
      * @param  int $id
-     * @param BlogCategoryRepository $categoryRepository
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, BlogCategoryRepository $categoryRepository)
+    public function edit($id)
     {
-        $item = $categoryRepository->getEdit($id);
+        $item = $this->blogCategoryRepository->getEdit($id);
         if(empty($item)) {
             abort(404);
         }
-        $categoryList = $categoryRepository->getComboBox();
+        $categoryList = $this->blogCategoryRepository->getComboBox();
         return view('blog.admin.categories.edit', compact('item', 'categoryList'));
     }
 
