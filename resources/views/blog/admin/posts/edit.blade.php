@@ -9,10 +9,11 @@
         @include('blog.admin.posts.includes.results_messages')
 
     @if($post->exists)
-        <form method="POST" action="{{route('blog.admin.posts.update',$post->id)}}">
-        @method('PATCH')
+            <form method="POST" action="{{route('blog.admin.posts.update',$post->id)}}">
+            @method('PATCH')
+            <input type="hidden" name="id" value="{{$post->id}}">
     @else
-        <form method="POST" action="{{route('blog.admin.posts.store')}}">
+            <form method="POST" action="{{route('blog.admin.posts.store')}}">
     @endif
         @csrf
             <div class="row justify-content-center">
