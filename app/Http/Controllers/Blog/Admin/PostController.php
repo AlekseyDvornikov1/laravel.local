@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Blog\Admin;
 
 use App\Http\Requests\BlogPostUpdateRequest;
+use App\Models\BlogPost;
 use App\Repositories\BlogCategoryRepository;
 use App\Repositories\BlogPostRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 
 /**
  * Управление статьями блога
@@ -105,19 +104,13 @@ class PostController extends BaseController
      * @param BlogPostUpdateRequest $request
      * @param  int $id
      * @return \Illuminate\Http\RedirectResponse
+     * @var BlogPost $post
      */
     public function update(BlogPostUpdateRequest $request, $id)
     {
         $post = $this->blogPostRepository->getEdit($id);
 
         $data = $request->all();
-
-        if(empty($data['slug'])) {
-            $data['slug'] = Str::slug($data['title']);
-        }
-        if(empty($post->published_at) && $data['is_published']) {
-            $data['published_at'] = Carbon::now();
-        }
 
         $result = $post->update($data);
 
