@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Blog\Admin;
 
+use App\Http\Requests\BlogPostCreateRequest;
 use App\Http\Requests\BlogPostUpdateRequest;
 use App\Models\BlogPost;
 use App\Repositories\BlogCategoryRepository;
 use App\Repositories\BlogPostRepository;
-use Illuminate\Http\Request;
 
 /**
  * Управление статьями блога
@@ -55,18 +55,31 @@ class PostController extends BaseController
      */
     public function create()
     {
-        dd(1);
+        $post = new BlogPost();
+        $categoryList = $this->blogCategoryRepository->getComboBox();
+        return view('blog.admin.posts.create',compact('post','categoryList'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param BlogPostCreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogPostCreateRequest $request)
     {
-        //
+        $data = $request->input();
+        $post = (new BlogPost())->create($data);
+
+        if($post) {
+            return redirect()
+                ->route('blog.admin.posts.edit',$post->id)
+                ->with(['success' => 'Успешно сохранено']);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Ошибка сохранения'])
+                ->withInput();
+        }
     }
 
     /**
