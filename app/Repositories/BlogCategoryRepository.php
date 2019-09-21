@@ -32,7 +32,7 @@ class BlogCategoryRepository extends CoreRepository
      */
     public function getEdit($id)
     {
-        return $this->startConditions()->find($id);
+          return $this->startConditions()->find($id);
     }
 
     /**
@@ -58,7 +58,14 @@ class BlogCategoryRepository extends CoreRepository
     {
         $columns = ['id', 'title', 'parent_id'];
 
-        $result = $this->startConditions()->select($columns)->orderBy('id')->paginate($perPage);
+        $result = $this
+            ->startConditions()
+            ->select($columns)
+            ->with([
+                'parentCategory:id,title'
+            ])
+            ->orderBy('id')
+            ->paginate($perPage);
 
 
         return $result;
