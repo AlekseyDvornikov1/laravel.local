@@ -37,6 +37,23 @@ class BlogCategory extends Model
                 : '???');
     }
 
+//    /**
+//     * Пример аксесора
+//     */
+//    public function getTitleAttribute($valueFromObject)
+//    {
+//        return mb_strtoupper($valueFromObject);
+//    }
+//
+//    /**
+//     * Пример мутатора
+//     * @param $incomingValue
+//     */
+//    public function setTitleAttribute($incomingValue)
+//    {
+//        $this->attributes['title'] = mb_strtolower($incomingValue);
+//    }
+
     public function isRoot()
     {
         return $this->id === self::ROOT;

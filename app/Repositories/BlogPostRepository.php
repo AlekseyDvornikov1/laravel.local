@@ -56,6 +56,10 @@ class BlogPostRepository extends CoreRepository
         return $result;
     }
 
+    public function getTrashedPost($id)
+    {
+        return $this->startConditions()->withTrashed()->find($id);
+    }
 
 
 }

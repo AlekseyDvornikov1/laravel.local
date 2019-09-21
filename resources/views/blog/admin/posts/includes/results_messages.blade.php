@@ -6,6 +6,10 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 {{session('success')}}
+                @if (session('restore'))
+                    <a href="{{route('blog.admin.posts.restore', session()->get('restore'))}}"
+                       class="btn">Восстановить</a>
+                @endif
             </div>
         </div>
     </div>
